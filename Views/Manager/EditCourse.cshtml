@@ -1,1 +1,138 @@
-﻿
+﻿@model WEB_Student.Models.Course
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Management SIMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            display: flex; /* Sử dụng flexbox để bố cục trang linh hoạt */
+            min-height: 100vh; /* Đảm bảo nội dung tối thiểu bằng chiều cao màn hình */
+        }
+
+        .sidebar {
+            width: 220px; /* Định kích thước chiều rộng của sidebar */
+            background-color: #343a40; /* Màu nền tối cho sidebar */
+            color: white; /* Màu chữ trắng để dễ đọc trên nền tối */
+            padding: 20px; /* Tạo khoảng cách bên trong */
+            height: 100vh; /* Sidebar chiếm toàn bộ chiều cao của màn hình */
+            position: fixed; /* Giữ sidebar cố định khi cuộn trang */
+            left: 0; /* Đặt sidebar sát lề trái */
+            top: 0; /* Đặt sidebar sát lề trên */
+        }
+
+            .sidebar a {
+                color: white; /* Màu chữ trắng cho các liên kết */
+                text-decoration: none; /* Bỏ gạch chân mặc định của liên kết */
+                display: block; /* Hiển thị liên kết như một khối */
+                padding: 10px; /* Tạo khoảng cách bên trong mỗi liên kết */
+                border-radius: 5px; /* Bo góc nhẹ để nhìn mềm mại hơn */
+            }
+
+                .sidebar a:hover {
+                    background-color: #495057; /* Thay đổi màu nền khi di chuột vào liên kết */
+                }
+
+        .content {
+            margin-left: 150px; /* Để nội dung không bị che bởi sidebar */
+            padding: 10px; /* Tạo khoảng cách bên trong */
+            width: calc(100% - 100px); /* Điều chỉnh chiều rộng nội dung theo sidebar */
+            overflow-x: auto; /* Kích hoạt thanh cuộn ngang nếu nội dung quá rộng */
+        }
+
+        .table th, .table td {
+            text-align: center; /* Căn giữa nội dung trong bảng theo chiều ngang */
+            vertical-align: middle; /* Căn giữa nội dung trong bảng theo chiều dọc */
+        }
+
+        .table-responsive {
+            overflow-x: auto; /* Nếu bảng quá rộng, cho phép cuộn ngang */
+        }
+
+        .search-bar {
+            display: flex; /* Sử dụng flexbox để bố trí các thành phần linh hoạt */
+            justify-content: space-between; /* Căn các phần tử xa nhau */
+            margin-bottom: 15px; /* Tạo khoảng cách phía dưới thanh tìm kiếm */
+        }
+
+            .search-bar input {
+                width: 300px; /* Giới hạn chiều rộng của ô nhập để không quá dài */
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar (Bên trái) -->
+    <div class="sidebar">
+        <h4>Dashboard</h4>
+        <a href="#">📄 My Information</a>
+        <a href="#">🎓 Manage Students</a>
+        <a href="#">📚 Manage Courses</a>
+        <a href="#">📊 Reports</a>
+        <a href="#">⚙️ Settings</a>
+        <a asp-action="Login" asp-controller="Account" class="text-danger">🚪 Log Out</a>
+    </div>
+
+    <!-- Nội dung chính (Bên phải) -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav class="navbar navbar-light bg-light mb-3">
+            <div class="container-fluid d-flex justify-content-between">
+                <span class="navbar-brand mb-0 h4">📚  Management SIMS</span>
+                <span class="navbar-brand mb-0 h4">👤 Admin, Hi</span>
+            </div>
+        </nav>
+
+
+        <!-- Course Table -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-dark">
+                    <div class="container mt-2">                 
+                            <div class="card shadow-lg border-0 rounded-3">
+                                <div class="card-header bg-warning text-white text-center">
+                                    <h4>Edit Course</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form asp-action="EditCourse" method="post">
+                                        <div class="mb-3">
+                                            <label asp-for="CourseName" class="form-label fw-bold">Course Name</label>
+                                            <input asp-for="CourseName" class="form-control shadow-sm" placeholder="Enter course name" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Description" class="form-label fw-bold">Description</label>
+                                            <textarea asp-for="Description" class="form-control shadow-sm" placeholder="Enter course description"></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Credits" class="form-label fw-bold">Credits</label>
+                                            <input asp-for="Credits" type="number" class="form-control shadow-sm" placeholder="Enter credits" />
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <label for="StartDate" class="form-label fw-bold">Start Date</label>
+                                                <input type="date" class="form-control shadow-sm" id="StartDate" name="StartDate" required />
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label for="EndDate" class="form-label fw-bold">End Date</label>
+                                                <input type="date" class="form-control shadow-sm" id="EndDate" name="EndDate" required />
+                                            </div>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-warning btn-lg px-4 py-2 shadow-sm">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
